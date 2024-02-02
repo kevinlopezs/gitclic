@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:gitclic/presentation/home/home_controller.dart';
 import 'package:gitclic/presentation/home/home_page.dart';
+import 'package:gitclic/presentation/onboarding/onboarding_page.dart';
 import 'package:gitclic/presentation/splash/splash_controller.dart';
 import 'package:gitclic/presentation/splash/splash_page.dart';
 part './app_routes.dart';
@@ -17,7 +18,13 @@ abstract class AppPages {
           Get.lazyPut(() => SplashController());
         })),
 
-    //HomePAge route
+    //Onboarding route
+    GetPage(
+      name: Approutes.onboardingPage,
+      page: () => const OnboardingPage(),
+    ),
+
+    //HomePage route
     GetPage(
         name: Approutes.homePage,
         page: () => const HomePage(),

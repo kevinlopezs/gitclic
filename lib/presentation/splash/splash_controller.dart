@@ -14,7 +14,7 @@ class SplashController extends GetxController {
     Future.delayed(
       1000.milliseconds,
       () {
-        Get.offAllNamed(Approutes.homePage);
+        Get.offAllNamed(Approutes.onboardingPage);
       },
     );
   }

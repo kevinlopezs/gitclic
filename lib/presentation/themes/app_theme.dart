@@ -13,34 +13,50 @@ const colorList = [
 ];
 
 class AppTheme {
+  //Global AppTheme colors and font
   final int selectedColor;
   final int selectedFont;
 
+  //Variables to change buttons colors
+  final Color buttonColor;
+  final Color buttonTextcolor;
+
   //Some assert exceptions to control theme color selected
-  AppTheme({this.selectedFont = 1, this.selectedColor = 6})
+  AppTheme(
+      {this.buttonColor = const Color(0xFF5572FF),
+      this.buttonTextcolor = Colors.white,
+      this.selectedFont = 1,
+      this.selectedColor = 2})
       : assert(selectedColor >= 0 && selectedFont >= 0,
             'Selected color must be greater than 0'),
         assert(selectedColor >= 0 && selectedFont <= colorList.length - 1,
             'Selected color must be greater than 0');
 
   ThemeData getTheme() => ThemeData(
-      //Whit this we decorate TextFormField
-      inputDecorationTheme: CustomTextFormFieldTheme.lightInputDecorationTheme,
-      useMaterial3: true,
-      colorSchemeSeed: colorList[selectedColor],
+        //Whit this we decorate TextFormField
+        inputDecorationTheme:
+            CustomTextFormFieldTheme.lightInputDecorationTheme,
+        useMaterial3: true,
+        colorSchemeSeed: colorList[selectedColor],
 
-      //Theme fonts config
-      textTheme: const TextTheme(
-          titleMedium: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          titleSmall: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: Colors.black38,
-          ),
-          labelSmall: TextStyle(
-            fontSize: 16,
-          ),
-          //This is for buttons
-          labelLarge: TextStyle(fontSize: 16, color: Colors.white),
-          bodySmall: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)));
+        //Global theme buttons design
+        buttonTheme: ButtonThemeData(
+            textTheme: ButtonTextTheme.primary,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(24.0),
+            ),
+            //Parameter to put another color
+            buttonColor: buttonColor),
+
+        //This is a custom button style for elevated buttons
+        elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ButtonStyle(
+          foregroundColor: const MaterialStatePropertyAll<Color>(Colors.white),
+          backgroundColor:
+              MaterialStateProperty.all<Color>(colorList[selectedColor]),
+          shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24.0))),
+        )),
+      );
 }
