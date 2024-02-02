@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:gitclic/presentation/home/home_controller.dart';
 import 'package:gitclic/presentation/routes/app_pages.dart';
+import 'package:gitclic/presentation/themes/app_theme.dart';
 
 void main() {
   //This is for asyncs functionalities before runApp starts
@@ -32,6 +33,7 @@ class MainApp extends StatelessWidget {
             false, //This is for hide debug icon in screen
         getPages: AppPages.pages, //This is for config page in GetX
         initialRoute: Approutes.splashPage, //This is for setup inital page
+        theme: AppTheme(selectedColor: 6, selectedFont: 1).getTheme(),
         initialBinding: BindingsBuilder(() {
           Get.put<HomeController>(HomeController());
         }),
