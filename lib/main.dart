@@ -1,6 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:gitclic/presentation/home/home_controller.dart';
+import 'package:gitclic/presentation/routes/app_pages.dart';
 
 void main() {
+  //This is for asyncs functionalities before runApp starts
+  WidgetsFlutterBinding.ensureInitialized();
+
+  //We setup the app for just mode portrait
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
   runApp(const MainApp());
 }
 
@@ -9,12 +22,13 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false, //This is for hide debug icon in screen
+      getPages: AppPages.pages, //This is for config page in GetX
+      initialRoute: Approutes.splashPage, //This is for setup inital page
+      initialBinding: BindingsBuilder(() {
+        Get.put<HomeController>(HomeController());
+      }),
     );
   }
 }
