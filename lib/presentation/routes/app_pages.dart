@@ -1,4 +1,9 @@
 import 'package:get/get.dart';
+import 'package:gitclic/presentation/auth/sign_in/sign_in_controller.dart';
+import 'package:gitclic/presentation/auth/sign_in/sign_in_page.dart';
+import 'package:gitclic/presentation/auth/sign_in/sign_in_recovery_page.dart';
+import 'package:gitclic/presentation/auth/sign_up/sign_up_controller.dart';
+import 'package:gitclic/presentation/auth/sign_up/sign_up_page.dart';
 import 'package:gitclic/presentation/home/home_controller.dart';
 import 'package:gitclic/presentation/home/home_page.dart';
 import 'package:gitclic/presentation/onboarding/onboarding_page.dart';
@@ -24,12 +29,36 @@ abstract class AppPages {
       page: () => const OnboardingPage(),
     ),
 
-    //HomePage route
+    //SignUp route
     GetPage(
         name: Approutes.homePage,
         page: () => const HomePage(),
         binding: BindingsBuilder(() {
           Get.lazyPut(() => HomeController());
+        })),
+
+    //SignIn route
+    GetPage(
+        name: Approutes.signInPage,
+        page: () => const SignInPage(),
+        binding: BindingsBuilder(() {
+          Get.lazyPut(() => SignInController());
+        })),
+
+    //SignInRecovery route
+    GetPage(
+        name: Approutes.signInRecoveryPage,
+        page: () => const SignInRecoveryPage(),
+        binding: BindingsBuilder(() {
+          Get.lazyPut(() => SignInController());
+        })),
+
+    //SignUp route
+    GetPage(
+        name: Approutes.signUpPage,
+        page: () => const SignUpPage(),
+        binding: BindingsBuilder(() {
+          Get.lazyPut(() => SignUpController());
         })),
   ];
 }

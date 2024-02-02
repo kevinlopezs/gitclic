@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:gitclic/presentation/routes/app_pages.dart';
 import 'package:gitclic/presentation/themes/app_text_styles.dart';
 import 'package:gitclic/presentation/themes/app_theme.dart';
 import 'package:lottie/lottie.dart';
@@ -43,13 +44,14 @@ class OnboardingPage extends StatelessWidget {
                   )),
 
               100.verticalSpace,
+
               //Sign up button
               SizedBox(
                 width: double.infinity,
                 child: FilledButton(
                     onPressed: () {
-                      //Action to go sign up screen
-                      //Get.toNamed(AppRoutes.signUpScreen);
+                      //Action to go sign up page
+                      Get.toNamed(Approutes.signUpPage);
                     },
                     child: Padding(
                         padding: const EdgeInsets.all(14.0),
@@ -59,22 +61,22 @@ class OnboardingPage extends StatelessWidget {
                         ))),
               ),
 
-              const SizedBox(
-                height: 10,
-              ),
-
-              //Login button
+              10.verticalSpace,
+              //Sign in button
               SizedBox(
                 width: double.infinity,
                 child: FilledButton(
                     onPressed: () {
-                      //Get.toNamed(AppRoutes.signInScreen);
+                      //Action to go sign in page
+                      Get.toNamed(Approutes.signInPage);
                     },
                     style: ButtonStyle(
                       backgroundColor:
                           const MaterialStatePropertyAll(Colors.white),
-                      overlayColor:
-                          MaterialStatePropertyAll(AppTheme().buttonColor),
+                      //Apply opacity is important to reduce color weight
+                      //when is pressed
+                      overlayColor: MaterialStatePropertyAll(
+                          AppTheme().buttonColor.withOpacity(0.1)),
                       elevation: const MaterialStatePropertyAll(20.0),
                     ),
                     child: Padding(
@@ -93,5 +95,3 @@ class OnboardingPage extends StatelessWidget {
     );
   }
 }
-
-class AppRoutes {}
