@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 //This is a global class to change text font sizes and styles for app
 class TextStyles {
   //This is for titles
+  static const double titleHighSize = 30.0;
   static const double titleMediumSize = 24.0;
   static const double titleSmallSize = 16.0;
   //This is for subtitles
@@ -12,6 +13,16 @@ class TextStyles {
   //This is for buttons
   static const double labelSmallSize = 16.0;
   static const double labelLargeSize = 16.0;
+
+  static TextStyle titleHigh({Color color = Colors.black}) {
+    return TextStyle(
+        fontSize: titleHighSize, fontWeight: FontWeight.bold, color: color);
+  }
+
+  static TextStyle titleHighWhite({Color color = Colors.white}) {
+    return TextStyle(
+        fontSize: titleHighSize, fontWeight: FontWeight.bold, color: color);
+  }
 
   static TextStyle titleMedium({Color color = Colors.black}) {
     return TextStyle(
@@ -28,6 +39,11 @@ class TextStyles {
         fontSize: subtitleMediumSize,
         fontWeight: FontWeight.bold,
         color: color);
+  }
+
+  static TextStyle subtitleMediumWhite({Color color = Colors.white}) {
+    return TextStyle(
+        fontSize: titleSmallSize, fontWeight: FontWeight.bold, color: color);
   }
 
   static TextStyle labelSmall({Color color = Colors.black}) {
