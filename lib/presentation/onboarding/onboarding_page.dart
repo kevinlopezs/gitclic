@@ -84,7 +84,7 @@ class OnboardingPage extends StatelessWidget {
                         child: Text(
                           'Sign in',
                           style: TextStyles.labelLarge(
-                            color: AppTheme().buttonColor,
+                            color: Get.theme.primaryColor,
                           ),
                         ))),
               ),

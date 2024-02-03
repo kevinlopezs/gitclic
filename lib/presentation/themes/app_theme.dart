@@ -26,7 +26,7 @@ class AppTheme {
       {this.buttonColor = const Color(0xFF5572FF),
       this.buttonTextcolor = Colors.white,
       this.selectedFont = 1,
-      this.selectedColor = 2})
+      this.selectedColor = 0})
       : assert(selectedColor >= 0 && selectedFont >= 0,
             'Selected color must be greater than 0'),
         assert(selectedColor >= 0 && selectedFont <= colorList.length - 1,
@@ -35,7 +35,9 @@ class AppTheme {
   ThemeData getTheme() => ThemeData(
         //Whit this we decorate TextFormField
         inputDecorationTheme:
-            CustomTextFormFieldTheme.lightInputDecorationTheme,
+            CustomTextFormFieldTheme.lightInputDecorationTheme(
+                borderColor: colorList[3],
+                focusedBorderColor: colorList[selectedColor]),
         useMaterial3: true,
         colorSchemeSeed: colorList[selectedColor],
 
@@ -46,7 +48,7 @@ class AppTheme {
               borderRadius: BorderRadius.circular(24.0),
             ),
             //Parameter to put another color
-            buttonColor: buttonColor),
+            buttonColor: colorList[selectedColor]),
 
         //This is a custom button style for elevated buttons
         elevatedButtonTheme: ElevatedButtonThemeData(
@@ -58,5 +60,7 @@ class AppTheme {
               RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(24.0))),
         )),
+
+        iconTheme: IconThemeData(color: colorList[selectedColor]),
       );
 }
