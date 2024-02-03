@@ -131,30 +131,45 @@ class _SignUpBodyState extends State<_SignUpBody> {
 
                   20.verticalSpace,
 
-                  SizedBox(
-                    width: double.infinity,
-                    child: FilledButton(
-                      onPressed: () async {
-                        await widget.signUpController.onLogin();
+                  //Is neccesary to envolve into a obx to show circular progress indicator
+                  Obx(() {
+                    //Button for create a new user
+                    return SizedBox(
+                      width: double.infinity,
+                      child: FilledButton(
+                        onPressed: () async {
+                          await widget.signUpController.onLogin();
 
-                        if (widget.signUpController.formKey.currentState!
-                            .validate()) {
-                          widget.signUpController.email.value =
-                              widget.emailController.text;
-                          widget.signUpController.password.value =
-                              widget.pwdController.text;
-                          // widget.signUpController.signUp();
-                        } else {
-                          return;
-                        }
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(14.0),
-                        child: Text('Send',
-                            style: TextStyles.labelLarge(color: Colors.white)),
+                          if (widget.signUpController.formKey.currentState!
+                              .validate()) {
+                            //Send arguments email and password to controller
+                            widget.signUpController.email.value =
+                                widget.emailController.text;
+                            widget.signUpController.password.value =
+                                widget.pwdController.text;
+
+                            //Create a new user
+                            widget.signUpController.signUp();
+                          } else {
+                            return;
+                          }
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(14.0),
+                          child:
+                              //This condition checks if auth service is loading
+                              //and shows a loading for the user
+                              signUpController.loadingAuth.value == true
+                                  ? const CircularProgressIndicator(
+                                      color: Colors.white,
+                                    )
+                                  : Text('Send',
+                                      style: TextStyles.labelLarge(
+                                          color: Colors.white)),
+                        ),
                       ),
-                    ),
-                  ),
+                    );
+                  })
                 ],
               ),
             ),
