@@ -68,7 +68,7 @@ class OnboardingPage extends StatelessWidget {
                 child: FilledButton(
                     onPressed: () {
                       //Action to go sign in page
-                      Get.toNamed(Approutes.signInPage);
+                      Get.toNamed(Approutes.homePage);
                     },
                     style: ButtonStyle(
                       backgroundColor:
