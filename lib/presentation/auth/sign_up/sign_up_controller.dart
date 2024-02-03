@@ -35,7 +35,8 @@ class SignUpController extends GetxController {
             snackPosition: SnackPosition.TOP);
 
         //Finish auth loading
-        loadingAuth.value = true;
+        loadingAuth.value = false;
+        update(['signUpPage']);
         return;
       }
 
@@ -59,6 +60,7 @@ class SignUpController extends GetxController {
 
         //Finish auth loading
         loadingAuth.value = false;
+        update();
         //Go to sign in screen
         Get.toNamed(Approutes.signInPage);
       } else {
