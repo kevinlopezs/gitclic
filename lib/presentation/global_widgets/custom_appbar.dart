@@ -5,7 +5,9 @@ import 'package:gitclic/presentation/global_widgets/custom_slide_menu.dart';
 import 'package:gitclic/presentation/themes/app_text_styles.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSize {
-  const CustomAppBar({super.key});
+  const CustomAppBar({super.key, this.body});
+
+  final Widget? body;
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +44,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSize {
         ],
       ),
       drawer: const SlideMenu(),
+      body: body,
     );
   }
 
@@ -50,5 +53,5 @@ class CustomAppBar extends StatelessWidget implements PreferredSize {
   Widget get child => throw UnimplementedError();
 
   @override
-  Size get preferredSize => Size.fromHeight(500.sh);
+  Size get preferredSize => Size.fromHeight(10.sh);
 }

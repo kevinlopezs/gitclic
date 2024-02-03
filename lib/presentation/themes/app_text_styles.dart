@@ -5,6 +5,8 @@ class TextStyles {
   //This is for titles
   static const double titleMediumSize = 24.0;
   static const double titleSmallSize = 16.0;
+  //This is for subtitles
+  static const double subtitleMediumSize = 20.0;
   //This is for paragraphs
   static const double bodySmallSize = 14.0;
   //This is for buttons
@@ -19,6 +21,13 @@ class TextStyles {
   static TextStyle titleSmall({Color color = Colors.black38}) {
     return TextStyle(
         fontSize: titleSmallSize, fontWeight: FontWeight.bold, color: color);
+  }
+
+  static TextStyle subtitleMedium({Color color = Colors.black}) {
+    return TextStyle(
+        fontSize: subtitleMediumSize,
+        fontWeight: FontWeight.bold,
+        color: color);
   }
 
   static TextStyle labelSmall({Color color = Colors.black}) {
