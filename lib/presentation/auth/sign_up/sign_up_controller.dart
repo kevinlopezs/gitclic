@@ -36,6 +36,7 @@ class SignUpController extends GetxController {
 
         //Finish auth loading
         loadingAuth.value = false;
+        //Update loading icon
         update(['signUpPage']);
         return;
       }

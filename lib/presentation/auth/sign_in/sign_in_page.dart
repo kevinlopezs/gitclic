@@ -69,161 +69,186 @@ class _SignUpBodyState extends State<_SignUpBody> {
         TextEditingController();
 
     //Scroll is used to auto scroll when user uses textformfield
-    return SizedBox(
-      height: size.height,
-      width: size.width,
-      child: SafeArea(
-          child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 32),
-        child: Column(
-          children: [
-            //Icon go back
-            Align(
-              alignment: Alignment.topLeft,
-              child: GestureDetector(
-                onTap: () => Get.back(),
-                child: Icon(
-                  Icons.arrow_back_ios_outlined,
-                  size: 32,
-                  color: Get.theme.iconTheme.color,
-                ),
-              ),
-            ),
-
-            //Lottie animation
-            //An Expanded added to not use SingleChildScrollView
-            Expanded(
-              child: Container(
-                height: size.height * 0.3,
-                decoration: BoxDecoration(
-                    color: Get.theme.secondaryHeaderColor,
-                    shape: BoxShape.circle),
-                child: Lottie.asset('assets/animations/sign_in_animation.json',
-                    height: size.height * 0.3),
-              ),
-            ),
-            20.verticalSpace,
-
-            const SizedBox(
-              height: 24,
-            ),
-
-            //Sign up title
-            Text('Sign in', style: TextStyles.titleMedium()),
-            20.verticalSpace,
-            //Sign up title
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text('Type your email/password',
-                  style: TextStyles.bodySmall()),
-            ),
-            20.verticalSpace,
-
-            //Form to get user data
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(12)),
+    return GetBuilder<SignInController>(
+        id: 'signInPage',
+        builder: (signInController) {
+          return SizedBox(
+            height: size.height,
+            width: size.width,
+            child: SafeArea(
+                child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 32),
               child: Column(
                 children: [
-                  //This is a custom Form for email and password inputs
-                  CustomSignInForm(
-                      email: widget.emailController,
-                      pwd: widget.pwdController,
-                      signInController: signInController,
-                      size: size),
-
-                  20.verticalSpace,
-
-                  SizedBox(
-                    width: double.infinity,
-                    child: FilledButton(
-                      onPressed: () async {
-                        await widget.signInController.onLogin();
-
-                        if (widget.signInController.formKey.currentState!
-                            .validate()) {
-                          widget.signInController.email.value =
-                              widget.emailController.text;
-                          widget.signInController.password.value =
-                              widget.pwdController.text;
-                          // widget.signUpController.signUp();
-                        } else {
-                          return;
-                        }
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(14.0),
-                        child: Text('Send',
-                            style: TextStyles.labelLarge(color: Colors.white)),
+                  //Icon go back
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: GestureDetector(
+                      onTap: () => Get.back(),
+                      child: Icon(
+                        Icons.arrow_back_ios_outlined,
+                        size: 32,
+                        color: Get.theme.iconTheme.color,
                       ),
                     ),
                   ),
-                ],
-              ),
-            ),
 
-            20.verticalSpace,
+                  //Lottie animation
+                  //An Expanded added to not use SingleChildScrollView
+                  Expanded(
+                    child: Container(
+                      height: size.height * 0.3,
+                      decoration: BoxDecoration(
+                          color: Get.theme.secondaryHeaderColor,
+                          shape: BoxShape.circle),
+                      child: Lottie.asset(
+                          'assets/animations/sign_in_animation.json',
+                          height: size.height * 0.3),
+                    ),
+                  ),
+                  20.verticalSpace,
 
-            //This password recovery modal
-            TextButton(
-                onPressed: () {
-                  //Obx update
-                  Get.dialog(
-                    Obx(
-                      () {
-                        return AlertDialog(
-                          title: const Text('Password recovery'),
-                          content: const Text('Please type your email'),
-                          actions: [
-                            Form(
-                              key: signInController.formKeyPwdRecovery,
-                              child: TextFormField(
-                                controller: emailControllerPwdRecovery,
-                                validator: (value) => widget.signInController
-                                    .validateEmail(value),
-                                keyboardType: TextInputType.emailAddress,
-                                decoration: const InputDecoration(
-                                    errorMaxLines: 5,
-                                    label: Text('Email'),
-                                    prefixIcon: Icon(Icons.email)),
-                              ),
-                            ),
-                            TextButton(
+                  const SizedBox(
+                    height: 24,
+                  ),
+
+                  //Sign up title
+                  Text('Sign in', style: TextStyles.titleMedium()),
+                  20.verticalSpace,
+                  //Sign up title
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('Type your email/password',
+                        style: TextStyles.bodySmall()),
+                  ),
+                  20.verticalSpace,
+
+                  //Form to get user data
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12)),
+                    child: Column(
+                      children: [
+                        //This is a custom Form for email and password inputs
+                        CustomSignInForm(
+                            email: widget.emailController,
+                            pwd: widget.pwdController,
+                            signInController: signInController,
+                            size: size),
+
+                        20.verticalSpace,
+
+                        //Is neccesary to wrap the button into a obx to show circular progress indicator
+                        Obx(() {
+                          return SizedBox(
+                            width: double.infinity,
+                            child: FilledButton(
                               onPressed: () async {
-                                //await signInController.onLogin();
-                                /*if (signInController
-                                    .formKeyPwdRecovery.currentState!
+                                await widget.signInController.onLogin();
+
+                                if (widget
+                                    .signInController.formKey.currentState!
                                     .validate()) {
-                                  //Save email pwd recovery to obs variable
-                                  signInController.emailRecoveryWithToken
-                                      .value = emailControllerPwdRecovery.text;
+                                  //Send arguments email and password to controller
+                                  widget.signInController.email.value =
+                                      widget.emailController.text;
+                                  widget.signInController.password.value =
+                                      widget.pwdController.text;
+
+                                  //User sign in
+                                  //Create a new session for user
+                                  widget.signInController.signIn();
                                 } else {
                                   return;
-                                }*/
-                                Get.toNamed(Approutes.signInRecoveryPage);
+                                }
                               },
-                              child:
-                                  signInController.loadingRedirecting.value ==
-                                          true
-                                      ? const CircularProgressIndicator()
-                                      : const Text('Send'),
+                              child: Padding(
+                                padding: const EdgeInsets.all(14.0),
+                                child:
+                                    signInController.loadingAuth.value == true
+                                        ? const CircularProgressIndicator(
+                                            color: Colors.white,
+                                          )
+                                        : Text('Send',
+                                            style: TextStyles.labelLarge(
+                                                color: Colors.white)),
+                              ),
                             ),
-                          ],
+                          );
+                        })
+                      ],
+                    ),
+                  ),
+
+                  20.verticalSpace,
+
+                  //This password recovery modal
+                  //This is displayed when user need to recover the account
+
+                  TextButton(
+                      onPressed: () {
+                        //Obx update
+                        Get.dialog(
+                          Obx(
+                            () {
+                              return AlertDialog(
+                                title: const Text('Password recovery'),
+                                content: const Text('Please type your email'),
+                                actions: [
+                                  Form(
+                                    key: signInController.formKeyPwdRecovery,
+                                    child: TextFormField(
+                                      controller: emailControllerPwdRecovery,
+                                      validator: (value) => widget
+                                          .signInController
+                                          .validateEmail(value),
+                                      keyboardType: TextInputType.emailAddress,
+                                      decoration: const InputDecoration(
+                                          errorMaxLines: 5,
+                                          label: Text('Email'),
+                                          prefixIcon: Icon(Icons.email)),
+                                    ),
+                                  ),
+                                  TextButton(
+                                    onPressed: () async {
+                                      await signInController.onLogin();
+                                      if (signInController
+                                          .formKeyPwdRecovery.currentState!
+                                          .validate()) {
+                                        //Save email pwd recovery to obs variable
+                                        signInController
+                                                .emailRecoveryWithToken.value =
+                                            emailControllerPwdRecovery.text;
+                                        //Check if emails exists
+                                        signInController.checkEmailExists();
+                                      } else {
+                                        return;
+                                      }
+                                    },
+                                    child: signInController
+                                                .loadingRedirecting.value ==
+                                            true
+                                        ? const CircularProgressIndicator()
+                                        : const Text('Send'),
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
                         );
                       },
-                    ),
-                  );
-                },
-                child: const Text('Forgot password?')),
+                      child: const Text('Forgot password?')),
 
-            //This is a Padding using MediaQuery for when keyboard raised
-            Padding(
-                padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom)),
-          ],
-        ),
-      )),
-    );
+                  //This is a Padding using MediaQuery for when keyboard raised
+                  Padding(
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom)),
+                ],
+              ),
+            )),
+          );
+        });
   }
 }

@@ -136,7 +136,7 @@ class _SignUpBodyState extends State<_SignUpBody> {
 
                         20.verticalSpace,
 
-                        //Is neccesary to envolve into a obx to show circular progress indicator
+                        //Is neccesary to wrap the button into a obx to show circular progress indicator
                         Obx(() {
                           //Button for create a new user
                           return SizedBox(

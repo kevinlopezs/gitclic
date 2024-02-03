@@ -127,12 +127,12 @@ class _SignInRecoveryBodyState extends State<_SignInRecoveryBody> {
                         if (signInController
                             .formKeyPwdRecoveryPageWithToken.currentState!
                             .validate()) {
-                          /*signInController.updatePwdRecovery(
+                          signInController.updatePwdRecovery(
                             email:
                                 signInController.emailRecoveryWithToken.value,
                             token: widget.tokenController.text,
                             newPwd: widget.pwdController.text,
-                          );*/
+                          );
                         }
                       },
                       child: Padding(
