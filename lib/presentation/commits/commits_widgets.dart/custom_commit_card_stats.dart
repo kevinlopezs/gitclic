@@ -19,7 +19,7 @@ class CustomCommitStatsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 30),
+      padding: const EdgeInsets.symmetric(horizontal: 30),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(

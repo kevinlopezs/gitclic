@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:gitclic/data/models/search_commit_model.dart';
 import 'package:gitclic/data/services/github_services.dart';
 
+import '../../data/models/commits_model.dart';
+
 class SearchPageController extends GetxController {
   //Instance GitHub services
   GitHubServices searchService = GitHubServices();
@@ -17,7 +19,7 @@ class SearchPageController extends GetxController {
   final RxBool loadingSearch = false.obs;
 
   //List search data
-  final searchCommitsList = <Item>[].obs;
+  final searchCommitsList = <CommitsModel>[].obs;
 
   //Function to get search with GitHub API REST
   Future<void> searchCommit({required String searchText}) async {

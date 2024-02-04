@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:gitclic/helpers/commit_type_util.dart';
+import 'package:gitclic/presentation/routes/app_pages.dart';
 import 'package:gitclic/presentation/search/search_controller.dart';
 import 'package:gitclic/presentation/themes/app_text_styles.dart';
 
@@ -101,7 +102,6 @@ class SearchPage extends StatelessWidget {
                       ),
 
                       //These are cards for commits search results
-
                       searchPageController.loadingSearch.value
                           ? const CircularProgressIndicator()
                           : searchPageController.searchCommitsList.isEmpty
@@ -118,10 +118,13 @@ class SearchPage extends StatelessWidget {
                                     return InkWell(
                                       onTap: () {
                                         print('jejej');
+                                        Get.toNamed(Approutes.commitDetailPage,
+                                            arguments: element);
                                       },
                                       child: CustomCardCommit(
                                         size: size,
-                                        repoName: element.repository.name,
+                                        repoName:
+                                            element.repository?[0].name ?? '',
                                         authorName: element.commit.author.name,
                                         commitDate:
                                             element.commit.committer.date,

@@ -1,8 +1,6 @@
-// To parse this JSON data, do
-//
-//     final searchModel = searchModelFromJson(jsonString);
-
 import 'dart:convert';
+
+import 'package:gitclic/data/models/commits_model.dart';
 
 SearchModel searchModelFromJson(String str) =>
     SearchModel.fromJson(json.decode(str));
@@ -12,7 +10,7 @@ String searchModelToJson(SearchModel data) => json.encode(data.toJson());
 class SearchModel {
   int totalCount;
   bool incompleteResults;
-  List<Item> items;
+  List<CommitsModel> items; // Cambio de List<Item> a List<CommitsModel>
 
   SearchModel({
     required this.totalCount,
@@ -23,7 +21,8 @@ class SearchModel {
   factory SearchModel.fromJson(Map<String, dynamic> json) => SearchModel(
         totalCount: json["total_count"],
         incompleteResults: json["incomplete_results"],
-        items: List<Item>.from(json["items"].map((x) => Item.fromJson(x))),
+        items: List<CommitsModel>.from(json["items"].map((x) =>
+            CommitsModel.fromJson(x))), // Uso de CommitsModel en lugar de Item
       );
 
   Map<String, dynamic> toJson() => {
@@ -32,8 +31,8 @@ class SearchModel {
         "items": List<dynamic>.from(items.map((x) => x.toJson())),
       };
 }
-
-class Item {
+/*
+class CommitsModel {
   String url;
   String sha;
   String nodeId;
@@ -46,7 +45,7 @@ class Item {
   Repository repository;
   double score;
 
-  Item({
+  CommitsModel({
     required this.url,
     required this.sha,
     required this.nodeId,
@@ -60,7 +59,7 @@ class Item {
     required this.score,
   });
 
-  factory Item.fromJson(Map<String, dynamic> json) => Item(
+  factory CommitsModel.fromJson(Map<String, dynamic> json) => CommitsModel(
         url: json["url"],
         sha: json["sha"],
         nodeId: json["node_id"],
@@ -91,23 +90,23 @@ class Item {
 }
 
 class OwnerClass {
-  Login login;
+  String login;
   int id;
-  NodeId nodeId;
+  String nodeId;
   String avatarUrl;
   String gravatarId;
   String url;
   String htmlUrl;
   String followersUrl;
-  FollowingUrl followingUrl;
-  GistsUrl gistsUrl;
-  StarredUrl starredUrl;
+  String followingUrl;
+  String gistsUrl;
+  String starredUrl;
   String subscriptionsUrl;
   String organizationsUrl;
   String reposUrl;
-  EventsUrl eventsUrl;
+  String eventsUrl;
   String receivedEventsUrl;
-  Type type;
+  String type;
   bool siteAdmin;
 
   OwnerClass({
@@ -132,89 +131,47 @@ class OwnerClass {
   });
 
   factory OwnerClass.fromJson(Map<String, dynamic> json) => OwnerClass(
-        login: loginValues.map[json["login"]]!,
+        login: json["login"]!,
         id: json["id"],
-        nodeId: nodeIdValues.map[json["node_id"]]!,
+        nodeId: json["node_id"]!,
         avatarUrl: json["avatar_url"],
         gravatarId: json["gravatar_id"],
         url: json["url"],
         htmlUrl: json["html_url"],
         followersUrl: json["followers_url"],
-        followingUrl: followingUrlValues.map[json["following_url"]]!,
-        gistsUrl: gistsUrlValues.map[json["gists_url"]]!,
-        starredUrl: starredUrlValues.map[json["starred_url"]]!,
+        followingUrl: json["following_url"]!,
+        gistsUrl: json["gists_url"]!,
+        starredUrl: json["starred_url"]!,
         subscriptionsUrl: json["subscriptions_url"],
         organizationsUrl: json["organizations_url"],
         reposUrl: json["repos_url"],
-        eventsUrl: eventsUrlValues.map[json["events_url"]]!,
+        eventsUrl: json["events_url"]!,
         receivedEventsUrl: json["received_events_url"],
-        type: typeValues.map[json["type"]]!,
+        type: json["type"]!,
         siteAdmin: json["site_admin"],
       );
 
   Map<String, dynamic> toJson() => {
-        "login": loginValues.reverse[login],
+        "login": login,
         "id": id,
-        "node_id": nodeIdValues.reverse[nodeId],
+        "node_id": nodeId,
         "avatar_url": avatarUrl,
         "gravatar_id": gravatarId,
         "url": url,
         "html_url": htmlUrl,
         "followers_url": followersUrl,
-        "following_url": followingUrlValues.reverse[followingUrl],
-        "gists_url": gistsUrlValues.reverse[gistsUrl],
-        "starred_url": starredUrlValues.reverse[starredUrl],
+        "following_url": followingUrl,
+        "gists_url": gistsUrl,
+        "starred_url": starredUrl,
         "subscriptions_url": subscriptionsUrl,
         "organizations_url": organizationsUrl,
         "repos_url": reposUrl,
-        "events_url": eventsUrlValues.reverse[eventsUrl],
+        "events_url": eventsUrl,
         "received_events_url": receivedEventsUrl,
-        "type": typeValues.reverse[type],
+        "type": type,
         "site_admin": siteAdmin,
       };
 }
-
-enum EventsUrl { HTTPS_API_GITHUB_COM_USERS_KEVINLOPEZS_EVENTS_PRIVACY }
-
-final eventsUrlValues = EnumValues({
-  "https://api.github.com/users/kevinlopezs/events{/privacy}":
-      EventsUrl.HTTPS_API_GITHUB_COM_USERS_KEVINLOPEZS_EVENTS_PRIVACY
-});
-
-enum FollowingUrl {
-  HTTPS_API_GITHUB_COM_USERS_KEVINLOPEZS_FOLLOWING_OTHER_USER
-}
-
-final followingUrlValues = EnumValues({
-  "https://api.github.com/users/kevinlopezs/following{/other_user}":
-      FollowingUrl.HTTPS_API_GITHUB_COM_USERS_KEVINLOPEZS_FOLLOWING_OTHER_USER
-});
-
-enum GistsUrl { HTTPS_API_GITHUB_COM_USERS_KEVINLOPEZS_GISTS_GIST_ID }
-
-final gistsUrlValues = EnumValues({
-  "https://api.github.com/users/kevinlopezs/gists{/gist_id}":
-      GistsUrl.HTTPS_API_GITHUB_COM_USERS_KEVINLOPEZS_GISTS_GIST_ID
-});
-
-enum Login { KEVINLOPEZS }
-
-final loginValues = EnumValues({"kevinlopezs": Login.KEVINLOPEZS});
-
-enum NodeId { U_KG_DO_BC_Y_OW }
-
-final nodeIdValues = EnumValues({"U_kgDOBc-YOw": NodeId.U_KG_DO_BC_Y_OW});
-
-enum StarredUrl { HTTPS_API_GITHUB_COM_USERS_KEVINLOPEZS_STARRED_OWNER_REPO }
-
-final starredUrlValues = EnumValues({
-  "https://api.github.com/users/kevinlopezs/starred{/owner}{/repo}":
-      StarredUrl.HTTPS_API_GITHUB_COM_USERS_KEVINLOPEZS_STARRED_OWNER_REPO
-});
-
-enum Type { USER }
-
-final typeValues = EnumValues({"User": Type.USER});
 
 class Commit {
   String url;
@@ -527,3 +484,4 @@ class EnumValues<T> {
     return reverseMap;
   }
 }
+*/
