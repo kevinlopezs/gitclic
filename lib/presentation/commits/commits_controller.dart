@@ -15,6 +15,9 @@ class CommitController extends GetxController {
   final RxInt commitAdditions = 0.obs;
   final RxInt commitTDeletions = 0.obs;
 
+  //Obx reponame
+  RxString? currentRepoName = ''.obs;
+
   //Loading obx variable
   final RxBool loadingCommit = false.obs;
   final RxBool loadingCommitComment = false.obs;
@@ -25,6 +28,9 @@ class CommitController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    //Get repo_name parameter
+    currentRepoName?.value = Get.parameters['repo_name'] ?? '';
+
     getCommit(commitSha: currentCommit.value.sha);
     getCommitComment(commitSha: currentCommit.value.sha);
   }
@@ -35,7 +41,7 @@ class CommitController extends GetxController {
     try {
       //Get http response
       final commitResponse = await commitService.commit(
-          repoName: 'gitclic',
+          repoName: currentRepoName?.value ?? 'gitclic',
           commitSha: commitSha,
           userName: currentCommit.value.author.login);
 

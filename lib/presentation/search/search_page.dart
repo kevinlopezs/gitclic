@@ -134,7 +134,7 @@ class SearchPage extends StatelessWidget {
                                       ),
                                     );
                                   }).toList(),
-                                )
+                                ),
                     ],
                   ),
                 ),

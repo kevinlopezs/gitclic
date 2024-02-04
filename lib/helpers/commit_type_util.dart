@@ -16,8 +16,10 @@ class CommitTypeUtil {
       return 'AUTH';
     } else if (commitMessage.toLowerCase().contains('resources')) {
       return 'RESOURCES';
+    } else if (commitMessage.toLowerCase().contains('patch')) {
+      return 'PATCH';
     } else {
-      return '';
+      return 'DEFAULT';
     }
   }
 }

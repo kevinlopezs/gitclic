@@ -8,7 +8,7 @@ import 'package:gitclic/presentation/commits/commits_detail_page.dart';
 import 'package:gitclic/presentation/home/home_controller.dart';
 import 'package:gitclic/presentation/home/home_page.dart';
 import 'package:gitclic/presentation/onboarding/onboarding_page.dart';
-import 'package:gitclic/presentation/repos/repos_list_commits.dart';
+import 'package:gitclic/presentation/repos/repos_list_commits_page.dart';
 import 'package:gitclic/presentation/search/search_controller.dart';
 import 'package:gitclic/presentation/search/search_page.dart';
 import 'package:gitclic/presentation/splash/splash_controller.dart';

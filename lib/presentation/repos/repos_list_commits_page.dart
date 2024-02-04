@@ -3,6 +3,10 @@ import 'package:get/get.dart';
 import 'package:gitclic/presentation/repos/repos_controller.dart';
 import 'package:gitclic/presentation/themes/app_text_styles.dart';
 
+import '../../helpers/commit_type_util.dart';
+import '../global_widgets/custom_card_commit.dart';
+import '../routes/app_pages.dart';
+
 class RepoListPage extends StatelessWidget {
   const RepoListPage({super.key});
 
@@ -74,10 +78,51 @@ class RepoListPage extends StatelessWidget {
                             ),
                           ),
                         ],
-                      )
+                      ),
 
                       //These are cards for commits search results
-                      //CustomCardCommit(size: size),
+                      reposController.loadingRepoCommits.value
+                          ? const CircularProgressIndicator()
+                          : reposController.repoCommitsList.isEmpty
+                              ? const Text('Not found results..')
+                              : Column(
+                                  children: reposController.repoCommitsList
+                                      .map((element) {
+                                    //Conditions for commit type
+                                    String commitType =
+                                        CommitTypeUtil.determineCommitType(
+                                            element.commit.message);
+
+                                    return InkWell(
+                                      onTap: () {
+                                        print('jejej');
+                                        //Save current repo name to commit controller
+                                        /* commitController
+                                                .currentRepoName?.value =
+                                            reposController
+                                                .currentRepo.value.name;*/
+                                        Get.toNamed(Approutes.commitDetailPage,
+                                            arguments: element,
+                                            //Here we save the current repo selected
+                                            parameters: {
+                                              'repo_name': reposController
+                                                  .currentRepo.value.name
+                                            });
+                                      },
+                                      child: CustomCardCommit(
+                                        size: size,
+                                        repoName: reposController
+                                            .currentRepo.value.name,
+                                        authorName: element.commit.author.name,
+                                        commitDate:
+                                            element.commit.committer.date,
+                                        commitDescription:
+                                            element.commit.message,
+                                        commitType: commitType,
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
                     ],
                   ),
                 ),

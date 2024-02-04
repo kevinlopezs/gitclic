@@ -163,7 +163,6 @@ class HomePage extends StatelessWidget {
                                   ),
                                 ),
 
-                      //Title for repositories
                       20.verticalSpace,
                       //Title for Latest commits
                       Padding(
