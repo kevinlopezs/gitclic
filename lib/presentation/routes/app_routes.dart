@@ -14,4 +14,6 @@ abstract class Approutes {
   static const signInRecoveryPage = '/sign_in_recovery_page.dart';
   //HomePage route name
   static const homePage = '/home_page.dart';
+  //Search route name
+  static const searchPage = '/search_page.dart';
 }

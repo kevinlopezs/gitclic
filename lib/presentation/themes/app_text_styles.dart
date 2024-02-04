@@ -6,6 +6,7 @@ class TextStyles {
   static const double titleHighSize = 30.0;
   static const double titleMediumSize = 24.0;
   static const double titleSmallSize = 16.0;
+  static const double titleTooSmallSize = 12.0;
   //This is for subtitles
   static const double subtitleMediumSize = 20.0;
   //This is for paragraphs
@@ -32,6 +33,11 @@ class TextStyles {
   static TextStyle titleSmall({Color color = Colors.black38}) {
     return TextStyle(
         fontSize: titleSmallSize, fontWeight: FontWeight.bold, color: color);
+  }
+
+  static TextStyle titleTooSmall({Color color = Colors.black38}) {
+    return TextStyle(
+        fontSize: titleTooSmallSize, fontWeight: FontWeight.bold, color: color);
   }
 
   static TextStyle subtitleMedium({Color color = Colors.black}) {

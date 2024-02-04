@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:gitclic/presentation/global_widgets/custom_appbar.dart';
 import 'package:gitclic/presentation/home/home_controller.dart';
+import 'package:gitclic/presentation/routes/app_pages.dart';
 import 'package:gitclic/presentation/themes/app_text_styles.dart';
 
 class HomePage extends StatelessWidget {
@@ -13,7 +14,7 @@ class HomePage extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     return GetBuilder<HomeController>(
-        id: const ['homePage'],
+        id: 'homePage',
         builder: (homeController) {
           return Scaffold(
             appBar: CustomAppBar(
@@ -345,7 +346,9 @@ class HomePage extends StatelessWidget {
                       Padding(
                           padding: EdgeInsets.only(left: size.width * 0.65),
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.toNamed(Approutes.searchPage);
+                            },
                             child: Text('See more',
                                 style: TextStyles.labelSmall(
                                     color: Get.theme.primaryColor)),
@@ -433,7 +436,7 @@ class HomePage extends StatelessWidget {
                                                   const Expanded(
                                                       child: SizedBox()),
                                                   Card(
-                                                    color: Colors.green,
+                                                    color: Colors.lightGreen,
                                                     child: Padding(
                                                       padding:
                                                           const EdgeInsets.all(
