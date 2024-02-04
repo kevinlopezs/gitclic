@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:gitclic/presentation/commits/commits_controller.dart';
 import 'package:gitclic/presentation/themes/app_text_styles.dart';
@@ -79,7 +78,7 @@ class CommitListPage extends StatelessWidget {
                       ),
 
                       //These are cards for commits search results
-                      CustomCardCommit(size: size),
+                      //CustomCardCommit(size: size),
                     ],
                   ),
                 ),

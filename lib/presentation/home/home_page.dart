@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:gitclic/presentation/global_widgets/custom_appbar.dart';
 import 'package:gitclic/presentation/home/home_controller.dart';
 import 'package:gitclic/presentation/routes/app_pages.dart';
+import 'package:gitclic/presentation/search/search_controller.dart';
 import 'package:gitclic/presentation/themes/app_text_styles.dart';
 
 class HomePage extends StatelessWidget {
@@ -12,6 +13,9 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final SearchPageController searchController = Get.find();
+    final TextEditingController searchTextEditController =
+        TextEditingController();
 
     return GetBuilder<HomeController>(
         id: 'homePage',
@@ -55,7 +59,21 @@ class HomePage extends StatelessWidget {
                                 ),
                                 border: InputBorder.none,
                               ),
-                              onChanged: (value) {},
+                              onFieldSubmitted: (value) {
+                                //Save text value on texteditingcontroller
+                                searchTextEditController.text = value;
+
+                                //Start search on github
+                                searchController.searchCommit(
+                                    searchText: searchTextEditController.text);
+
+                                //Go to search page
+                                Get.toNamed(Approutes.searchPage);
+                              },
+                              onChanged: (value) {
+                                //Save text value on texteditingcontroller when this changes
+                                searchTextEditController.text = value;
+                              },
                               onTapOutside: (event) {
                                 FocusScope.of(context).unfocus();
                               },

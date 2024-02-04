@@ -12,6 +12,9 @@ class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final SearchPageController searchController = Get.find();
+    final TextEditingController searchTextEditController =
+        TextEditingController();
 
     return GetBuilder<SearchPageController>(
         id: 'searchPage',
@@ -66,7 +69,18 @@ class SearchPage extends StatelessWidget {
                                 ),
                                 border: InputBorder.none,
                               ),
-                              onChanged: (value) {},
+                              onFieldSubmitted: (value) {
+                                //Save text value on texteditingcontroller
+                                searchTextEditController.text = value;
+
+                                //Start search on github
+                                searchController.searchCommit(
+                                    searchText: searchTextEditController.text);
+                              },
+                              onChanged: (value) {
+                                //Save text value on texteditingcontroller when this changes
+                                searchTextEditController.text = value;
+                              },
                               onTapOutside: (event) {
                                 FocusScope.of(context).unfocus();
                               },
@@ -86,7 +100,39 @@ class SearchPage extends StatelessWidget {
                       ),
 
                       //These are cards for commits search results
-                      CustomCardCommit(size: size),
+                      // CustomCardCommit(size: size,authorName: ,commitDate: ,commitDescription: ,commitType: ,repoName: ),
+
+                      //
+
+                      searchPageController.loadingSearch.value
+                          ? const CircularProgressIndicator()
+                          : searchPageController.searchCommitsList.isEmpty
+                              ? const Text('Not found results..')
+                              : Column(
+                                  children: searchPageController
+                                      .searchCommitsList
+                                      .map((element) {
+                                    //Conditions for commit type
+                                    String commitType = determineCommitType(
+                                        element.commit.message);
+
+                                    return InkWell(
+                                      onTap: () {
+                                        print('jejej');
+                                      },
+                                      child: CustomCardCommit(
+                                        size: size,
+                                        repoName: element.repository.name,
+                                        authorName: element.commit.author.name,
+                                        commitDate:
+                                            element.commit.committer.date,
+                                        commitDescription:
+                                            element.commit.message,
+                                        commitType: commitType,
+                                      ),
+                                    );
+                                  }).toList(),
+                                )
                     ],
                   ),
                 ),
@@ -94,5 +140,29 @@ class SearchPage extends StatelessWidget {
             ),
           );
         });
+  }
+}
+
+//Conditions for commit type
+//Add here what you want to use
+String determineCommitType(String commitMessage) {
+  if (commitMessage.toLowerCase().contains('feat')) {
+    return 'FEAT';
+  } else if (commitMessage.toLowerCase().contains('ui')) {
+    return 'UI';
+  } else if (commitMessage.toLowerCase().contains('tada')) {
+    return 'TADA';
+  } else if (commitMessage.toLowerCase().contains('fix')) {
+    return 'FIX';
+  } else if (commitMessage.toLowerCase().contains('add')) {
+    return 'ADD';
+  } else if (commitMessage.toLowerCase().contains('config')) {
+    return 'CONFIG';
+  } else if (commitMessage.toLowerCase().contains('auth')) {
+    return 'AUTH';
+  } else if (commitMessage.toLowerCase().contains('resources')) {
+    return 'RESOURCES';
+  } else {
+    return '';
   }
 }

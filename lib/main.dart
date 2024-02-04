@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:gitclic/data/models/user_model.dart';
 import 'package:gitclic/presentation/home/home_controller.dart';
 import 'package:gitclic/presentation/routes/app_pages.dart';
+import 'package:gitclic/presentation/search/search_controller.dart';
 import 'package:gitclic/presentation/themes/app_theme.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -61,6 +62,7 @@ class MainApp extends StatelessWidget {
         theme: AppTheme(selectedColor: 6, selectedFont: 1).getTheme(),
         initialBinding: BindingsBuilder(() {
           Get.put<HomeController>(HomeController());
+          Get.put<SearchPageController>(SearchPageController());
         }),
       ),
     );
