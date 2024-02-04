@@ -647,7 +647,9 @@ class HomePage extends StatelessWidget {
                       Padding(
                           padding: EdgeInsets.only(left: size.width * 0.65),
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.toNamed(Approutes.commitPage);
+                            },
                             child: Text('See more',
                                 style: TextStyles.labelSmall(
                                     color: Get.theme.primaryColor)),
