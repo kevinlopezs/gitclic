@@ -101,8 +101,12 @@ class HomePage extends StatelessWidget {
                       homeController.loadingWeeklyCommitCounter.value == true
                           ? const Center(child: CircularProgressIndicator())
                           : homeController.weeklyList.isEmpty
-                              ? const Text(
-                                  'Error loading Weekly commits counter..')
+                              ? Center(
+                                  child: Text(
+                                    'Error loading Weekly commits counter..',
+                                    style: TextStyles.titleSmall(),
+                                  ),
+                                )
                               : SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
                                   child: Row(
@@ -132,14 +136,22 @@ class HomePage extends StatelessWidget {
                       homeController.loadingRepos.value == true
                           ? const Center(child: CircularProgressIndicator())
                           : homeController.repositoriesList.isEmpty
-                              ? const Text('Error loading repositories..')
+                              ? Center(
+                                  child: Text(
+                                  'Error loading repositories..',
+                                  style: TextStyles.titleSmall(),
+                                ))
                               : SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
                                   child: Row(
                                     children: homeController.repositoriesList
                                         .map((element) {
                                       return InkWell(
-                                        onTap: () {},
+                                        onTap: () {
+                                          Get.toNamed(
+                                              Approutes.reposListCommitsPage,
+                                              arguments: element);
+                                        },
                                         child: CustomCardRepo(
                                             size: size,
                                             repoName: element.name,
@@ -168,7 +180,9 @@ class HomePage extends StatelessWidget {
                       homeController.loadingCommits.value == true
                           ? const Center(child: CircularProgressIndicator())
                           : homeController.commitsList.isEmpty
-                              ? const Text('Error loading repositories..')
+                              ? Center(
+                                  child: Text('Error loading commits..',
+                                      style: TextStyles.titleSmall()))
                               : SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
                                   child: Row(
@@ -180,7 +194,11 @@ class HomePage extends StatelessWidget {
                                               element.commit.message);
 
                                       return InkWell(
-                                        onTap: () {},
+                                        onTap: () {
+                                          Get.toNamed(
+                                              Approutes.commitDetailPage,
+                                              arguments: element);
+                                        },
                                         child: CustomCardLastCommit(
                                             size: size,
                                             commitDate:

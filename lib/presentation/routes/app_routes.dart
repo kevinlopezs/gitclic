@@ -17,7 +17,7 @@ abstract class Approutes {
   //SearchPage route name
   static const searchPage = '/search_page.dart';
   //CommitListPage route name
-  static const commitListPage = '/commits_list_page.dart';
+  static const reposListCommitsPage = '/repos_list_commits.dart';
   //CommitDetailPage route name
   static const commitDetailPage = '/commits_detail_page.dart';
 }

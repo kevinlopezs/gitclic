@@ -1,14 +1,9 @@
-// To parse this JSON data, do
-//
-//     final commitsModel = commitsModelFromJson(jsonString);
-
 import 'dart:convert';
 
-List<CommitsModel> commitsModelFromJson(String str) => List<CommitsModel>.from(
-    json.decode(str).map((x) => CommitsModel.fromJson(x)));
+CommitsModel commitsModelFromJson(String str) =>
+    CommitsModel.fromJson(json.decode(str));
 
-String commitsModelToJson(List<CommitsModel> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String commitsModelToJson(CommitsModel data) => json.encode(data.toJson());
 
 class CommitsModel {
   String sha;
@@ -20,6 +15,8 @@ class CommitsModel {
   CommitsModelAuthor author;
   CommitsModelAuthor committer;
   List<Parent> parents;
+  Stats? stats;
+  List<FileElement>? files;
 
   CommitsModel({
     required this.sha,
@@ -31,6 +28,8 @@ class CommitsModel {
     required this.author,
     required this.committer,
     required this.parents,
+    this.stats,
+    this.files,
   });
 
   factory CommitsModel.fromJson(Map<String, dynamic> json) => CommitsModel(
@@ -44,6 +43,11 @@ class CommitsModel {
         committer: CommitsModelAuthor.fromJson(json["committer"]),
         parents:
             List<Parent>.from(json["parents"].map((x) => Parent.fromJson(x))),
+        stats: json["stats"] != null ? Stats.fromJson(json["stats"]) : null,
+        files: json["files"] != null
+            ? List<FileElement>.from(
+                json["files"].map((x) => FileElement.fromJson(x)))
+            : null,
       );
 
   Map<String, dynamic> toJson() => {
@@ -56,27 +60,31 @@ class CommitsModel {
         "author": author.toJson(),
         "committer": committer.toJson(),
         "parents": List<dynamic>.from(parents.map((x) => x.toJson())),
+        "stats": stats != null ? stats!.toJson() : null,
+        "files": files != null
+            ? List<dynamic>.from(files!.map((x) => x.toJson()))
+            : null,
       };
 }
 
 class CommitsModelAuthor {
-  Login login;
+  String login;
   int id;
-  NodeId nodeId;
+  String nodeId;
   String avatarUrl;
   String gravatarId;
   String url;
   String htmlUrl;
   String followersUrl;
-  FollowingUrl followingUrl;
-  GistsUrl gistsUrl;
-  StarredUrl starredUrl;
+  String followingUrl;
+  String gistsUrl;
+  String starredUrl;
   String subscriptionsUrl;
   String organizationsUrl;
   String reposUrl;
-  EventsUrl eventsUrl;
+  String eventsUrl;
   String receivedEventsUrl;
-  Type type;
+  String type;
   bool siteAdmin;
 
   CommitsModelAuthor({
@@ -102,89 +110,47 @@ class CommitsModelAuthor {
 
   factory CommitsModelAuthor.fromJson(Map<String, dynamic> json) =>
       CommitsModelAuthor(
-        login: loginValues.map[json["login"]]!,
+        login: json["login"],
         id: json["id"],
-        nodeId: nodeIdValues.map[json["node_id"]]!,
+        nodeId: json["node_id"],
         avatarUrl: json["avatar_url"],
         gravatarId: json["gravatar_id"],
         url: json["url"],
         htmlUrl: json["html_url"],
         followersUrl: json["followers_url"],
-        followingUrl: followingUrlValues.map[json["following_url"]]!,
-        gistsUrl: gistsUrlValues.map[json["gists_url"]]!,
-        starredUrl: starredUrlValues.map[json["starred_url"]]!,
+        followingUrl: json["following_url"],
+        gistsUrl: json["gists_url"],
+        starredUrl: json["starred_url"],
         subscriptionsUrl: json["subscriptions_url"],
         organizationsUrl: json["organizations_url"],
         reposUrl: json["repos_url"],
-        eventsUrl: eventsUrlValues.map[json["events_url"]]!,
+        eventsUrl: json["events_url"],
         receivedEventsUrl: json["received_events_url"],
-        type: typeValues.map[json["type"]]!,
+        type: json["type"],
         siteAdmin: json["site_admin"],
       );
 
   Map<String, dynamic> toJson() => {
-        "login": loginValues.reverse[login],
+        "login": login,
         "id": id,
-        "node_id": nodeIdValues.reverse[nodeId],
+        "node_id": nodeId,
         "avatar_url": avatarUrl,
         "gravatar_id": gravatarId,
         "url": url,
         "html_url": htmlUrl,
         "followers_url": followersUrl,
-        "following_url": followingUrlValues.reverse[followingUrl],
-        "gists_url": gistsUrlValues.reverse[gistsUrl],
-        "starred_url": starredUrlValues.reverse[starredUrl],
+        "following_url": followingUrl,
+        "gists_url": gistsUrl,
+        "starred_url": starredUrl,
         "subscriptions_url": subscriptionsUrl,
         "organizations_url": organizationsUrl,
         "repos_url": reposUrl,
-        "events_url": eventsUrlValues.reverse[eventsUrl],
+        "events_url": eventsUrl,
         "received_events_url": receivedEventsUrl,
-        "type": typeValues.reverse[type],
+        "type": type,
         "site_admin": siteAdmin,
       };
 }
-
-enum EventsUrl { HTTPS_API_GITHUB_COM_USERS_KEVINLOPEZS_EVENTS_PRIVACY }
-
-final eventsUrlValues = EnumValues({
-  "https://api.github.com/users/kevinlopezs/events{/privacy}":
-      EventsUrl.HTTPS_API_GITHUB_COM_USERS_KEVINLOPEZS_EVENTS_PRIVACY
-});
-
-enum FollowingUrl {
-  HTTPS_API_GITHUB_COM_USERS_KEVINLOPEZS_FOLLOWING_OTHER_USER
-}
-
-final followingUrlValues = EnumValues({
-  "https://api.github.com/users/kevinlopezs/following{/other_user}":
-      FollowingUrl.HTTPS_API_GITHUB_COM_USERS_KEVINLOPEZS_FOLLOWING_OTHER_USER
-});
-
-enum GistsUrl { HTTPS_API_GITHUB_COM_USERS_KEVINLOPEZS_GISTS_GIST_ID }
-
-final gistsUrlValues = EnumValues({
-  "https://api.github.com/users/kevinlopezs/gists{/gist_id}":
-      GistsUrl.HTTPS_API_GITHUB_COM_USERS_KEVINLOPEZS_GISTS_GIST_ID
-});
-
-enum Login { KEVINLOPEZS }
-
-final loginValues = EnumValues({"kevinlopezs": Login.KEVINLOPEZS});
-
-enum NodeId { U_KG_DO_BC_Y_OW }
-
-final nodeIdValues = EnumValues({"U_kgDOBc-YOw": NodeId.U_KG_DO_BC_Y_OW});
-
-enum StarredUrl { HTTPS_API_GITHUB_COM_USERS_KEVINLOPEZS_STARRED_OWNER_REPO }
-
-final starredUrlValues = EnumValues({
-  "https://api.github.com/users/kevinlopezs/starred{/owner}{/repo}":
-      StarredUrl.HTTPS_API_GITHUB_COM_USERS_KEVINLOPEZS_STARRED_OWNER_REPO
-});
-
-enum Type { USER }
-
-final typeValues = EnumValues({"User": Type.USER});
 
 class Commit {
   CommitAuthor author;
@@ -238,8 +204,8 @@ class CommitAuthor {
   });
 
   factory CommitAuthor.fromJson(Map<String, dynamic> json) => CommitAuthor(
-        name: json["name"]!,
-        email: json["email"]!,
+        name: json["name"],
+        email: json["email"],
         date: DateTime.parse(json["date"]),
       );
 
@@ -272,7 +238,7 @@ class Tree {
 
 class Verification {
   bool verified;
-  Reason reason;
+  String reason;
   dynamic signature;
   dynamic payload;
 
@@ -285,22 +251,18 @@ class Verification {
 
   factory Verification.fromJson(Map<String, dynamic> json) => Verification(
         verified: json["verified"],
-        reason: reasonValues.map[json["reason"]]!,
+        reason: json["reason"],
         signature: json["signature"],
         payload: json["payload"],
       );
 
   Map<String, dynamic> toJson() => {
         "verified": verified,
-        "reason": reasonValues.reverse[reason],
+        "reason": reason,
         "signature": signature,
         "payload": payload,
       };
 }
-
-enum Reason { UNSIGNED }
-
-final reasonValues = EnumValues({"unsigned": Reason.UNSIGNED});
 
 class Parent {
   String sha;
@@ -323,6 +285,87 @@ class Parent {
         "sha": sha,
         "url": url,
         "html_url": htmlUrl,
+      };
+}
+
+class FileElement {
+  String sha;
+  String filename;
+  Status? status;
+  int? additions;
+  int? deletions;
+  int? changes;
+  String? blobUrl;
+  String? rawUrl;
+  String? contentsUrl;
+  String? patch;
+
+  FileElement({
+    required this.sha,
+    required this.filename,
+    this.status,
+    this.additions,
+    this.deletions,
+    this.changes,
+    this.blobUrl,
+    this.rawUrl,
+    this.contentsUrl,
+    this.patch,
+  });
+
+  factory FileElement.fromJson(Map<String, dynamic> json) => FileElement(
+        sha: json["sha"],
+        filename: json["filename"],
+        status:
+            json["status"] != null ? statusValues.map[json["status"]] : null,
+        additions: json["additions"],
+        deletions: json["deletions"],
+        changes: json["changes"],
+        blobUrl: json["blob_url"],
+        rawUrl: json["raw_url"],
+        contentsUrl: json["contents_url"],
+        patch: json["patch"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "sha": sha,
+        "filename": filename,
+        "status": status != null ? statusValues.reverse[status] : null,
+        "additions": additions,
+        "deletions": deletions,
+        "changes": changes,
+        "blob_url": blobUrl,
+        "raw_url": rawUrl,
+        "contents_url": contentsUrl,
+        "patch": patch,
+      };
+}
+
+enum Status { ADDED }
+
+final statusValues = EnumValues({"added": Status.ADDED});
+
+class Stats {
+  int total;
+  int additions;
+  int deletions;
+
+  Stats({
+    required this.total,
+    required this.additions,
+    required this.deletions,
+  });
+
+  factory Stats.fromJson(Map<String, dynamic> json) => Stats(
+        total: json["total"],
+        additions: json["additions"],
+        deletions: json["deletions"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "total": total,
+        "additions": additions,
+        "deletions": deletions,
       };
 }
 

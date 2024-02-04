@@ -100,4 +100,54 @@ class GitHubServices {
       throw Exception('Unexpected error ocurred. Error creating new user:$e');
     }
   }
+
+  //Service to search a commit from GitHub API REST
+  Future<Response> commit({
+    required String userName,
+    required String repoName,
+    required String commitSha,
+  }) async {
+    try {
+      Response response = await Dio().get(
+        "$apiGithub/repos/$userName/$repoName/commits/$commitSha",
+        options: Options(headers: {
+          'Accept': 'application/vnd.github+json',
+          'Authorization': 'Bearer $tempToken',
+          'X-GitHub-Api-Version': '2022-11-28',
+        }),
+      );
+
+      return response;
+    } on DioException catch (e) {
+      final String dioError = e.response?.data['error_description'] ?? '';
+      throw Exception(dioError);
+    } catch (e) {
+      throw Exception('Unexpected error ocurred. Error creating new user:$e');
+    }
+  }
+
+  //Service to search a commit from GitHub API REST
+  Future<Response> commitComments({
+    required String userName,
+    required String repoName,
+    required String commitSha,
+  }) async {
+    try {
+      Response response = await Dio().get(
+        "$apiGithub/repos/$userName/$repoName/commits/$commitSha/comments",
+        options: Options(headers: {
+          'Accept': 'application/vnd.github+json',
+          'Authorization': 'Bearer $tempToken',
+          'X-GitHub-Api-Version': '2022-11-28',
+        }),
+      );
+
+      return response;
+    } on DioException catch (e) {
+      final String dioError = e.response?.data['error_description'] ?? '';
+      throw Exception(dioError);
+    } catch (e) {
+      throw Exception('Unexpected error ocurred. Error creating new user:$e');
+    }
+  }
 }

@@ -1,20 +1,21 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gitclic/presentation/auth/sign_in/sign_in_controller.dart';
 import 'package:gitclic/presentation/auth/sign_in/sign_in_page.dart';
 import 'package:gitclic/presentation/auth/sign_in/sign_in_recovery_page.dart';
 import 'package:gitclic/presentation/auth/sign_up/sign_up_controller.dart';
 import 'package:gitclic/presentation/auth/sign_up/sign_up_page.dart';
-import 'package:gitclic/presentation/commits/commits_controller.dart';
 import 'package:gitclic/presentation/commits/commits_detail_page.dart';
-import 'package:gitclic/presentation/commits/commits_list_page.dart';
 import 'package:gitclic/presentation/home/home_controller.dart';
 import 'package:gitclic/presentation/home/home_page.dart';
 import 'package:gitclic/presentation/onboarding/onboarding_page.dart';
+import 'package:gitclic/presentation/repos/repos_list_commits.dart';
 import 'package:gitclic/presentation/search/search_controller.dart';
 import 'package:gitclic/presentation/search/search_page.dart';
 import 'package:gitclic/presentation/splash/splash_controller.dart';
 import 'package:gitclic/presentation/splash/splash_page.dart';
+
+import '../commits/commits_controller.dart';
+import '../repos/repos_controller.dart';
 part './app_routes.dart';
 
 //This is the setup with GetX for app routes
@@ -75,12 +76,12 @@ abstract class AppPages {
           Get.lazyPut(() => SearchPageController());
         })),
 
-    //CommitListPage route
+    //RepoListCommitPage route
     GetPage(
-        name: Approutes.commitListPage,
-        page: () => const CommitListPage(),
+        name: Approutes.reposListCommitsPage,
+        page: () => const RepoListPage(),
         binding: BindingsBuilder(() {
-          Get.lazyPut(() => CommitController());
+          Get.lazyPut(() => ReposController());
         })),
 
     //CommitDetailPage route

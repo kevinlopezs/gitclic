@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:gitclic/helpers/commit_type_util.dart';
 import 'package:gitclic/presentation/commits/commits_controller.dart';
 import 'package:gitclic/presentation/themes/app_text_styles.dart';
+
+import 'commits_widgets.dart/custom_comments.dart';
+import 'commits_widgets.dart/custom_commit_card_detail.dart';
+import 'commits_widgets.dart/custom_commit_card_stats.dart';
 
 class CommitDetailPage extends StatelessWidget {
   const CommitDetailPage({super.key});
@@ -64,7 +69,18 @@ class CommitDetailPage extends StatelessWidget {
                       10.verticalSpace,
 
                       //These are card design for author  data
-                      CustomCommitCardDetail(size: size),
+                      CustomCommitCardDetail(
+                          size: size,
+                          name: commitController
+                              .currentCommit.value.commit.author.name,
+                          commitType: //Conditions for commit type
+                              CommitTypeUtil.determineCommitType(
+                                  commitController
+                                      .currentCommit.value.commit.message),
+                          date: commitController
+                              .currentCommit.value.commit.author.date,
+                          email: commitController
+                              .currentCommit.value.commit.author.email),
 
                       10.verticalSpace,
 
@@ -84,7 +100,18 @@ class CommitDetailPage extends StatelessWidget {
                       10.verticalSpace,
 
                       //These are card design for commiter data
-                      CustomCommitCardDetail(size: size),
+                      CustomCommitCardDetail(
+                          size: size,
+                          name: commitController
+                              .currentCommit.value.commit.committer.name,
+                          commitType: //Conditions for commit type
+                              CommitTypeUtil.determineCommitType(
+                                  commitController
+                                      .currentCommit.value.commit.message),
+                          date: commitController
+                              .currentCommit.value.commit.committer.date,
+                          email: commitController
+                              .currentCommit.value.commit.committer.email),
 
                       10.verticalSpace,
 
@@ -107,7 +134,7 @@ class CommitDetailPage extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 30),
                           child: Text(
-                            'FEAT: Gitclic app init config with flutter\nDescription: Init config for gitclic app using flutter, creating a new project from blank with VSCODE and flutter framework installed in windows.',
+                            commitController.currentCommit.value.commit.message,
                             style: TextStyles.bodySmall(),
                           ),
                         ),
@@ -130,90 +157,15 @@ class CommitDetailPage extends StatelessWidget {
 
                       10.verticalSpace,
 
-                      //These are card scrolling for commit stats
-                      Padding(
-                        padding: const EdgeInsets.only(left: 30),
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              //These are card design for weekly commits
-                              //This card design is builded with container
-                              Container(
-                                decoration: BoxDecoration(
-                                  color:
-                                      Get.theme.primaryColor.withOpacity(0.9),
-                                  borderRadius: BorderRadius.circular(9.0),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        'Wednesday 14:00',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyles.subtitleMediumWhite(),
-                                      ),
-                                      Text(
-                                        '5',
-                                        style: TextStyles.titleHigh(),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              50.horizontalSpace,
-                              Container(
-                                decoration: BoxDecoration(
-                                  color:
-                                      Get.theme.primaryColor.withOpacity(0.9),
-                                  borderRadius: BorderRadius.circular(9.0),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        'Friday 14:00',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyles.subtitleMediumWhite(),
-                                      ),
-                                      Text(
-                                        '3',
-                                        style: TextStyles.titleHigh(),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              50.horizontalSpace,
-                              Container(
-                                decoration: BoxDecoration(
-                                  color:
-                                      Get.theme.primaryColor.withOpacity(0.9),
-                                  borderRadius: BorderRadius.circular(9.0),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        'Saturday 14:00',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyles.subtitleMediumWhite(),
-                                      ),
-                                      Text(
-                                        '1',
-                                        style: TextStyles.titleHigh(),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      //These are cards scrolling for commit stats
+                      commitController.loadingCommit.value == true
+                          ? const Center(child: CircularProgressIndicator())
+                          : CustomCommitStatsCard(
+                              total: commitController.commitTotalStats.value,
+                              additions: commitController.commitAdditions.value,
+                              deletions:
+                                  commitController.commitTDeletions.value,
+                            ),
 
                       10.verticalSpace,
 
@@ -237,7 +189,7 @@ class CommitDetailPage extends StatelessWidget {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
                                     textAlign: TextAlign.right,
-                                    'Total comments: 2',
+                                    'Total comments: ${commitController.currentCommit.value.commit.commentCount}',
                                     style: TextStyles.titleSmall(
                                         color: Colors.white),
                                   ),
@@ -249,79 +201,31 @@ class CommitDetailPage extends StatelessWidget {
                       ),
 
                       10.verticalSpace,
-                      //this is one comment
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 30),
-                          child: Row(
-                            children: [
-                              //Avatar
-                              const Padding(
-                                padding: EdgeInsets.only(right: 30.0),
-                                child: CircleAvatar(
-                                  backgroundImage: AssetImage(
-                                      'assets/icons/gitclic_icon.png'),
-                                  backgroundColor: Colors.white,
-                                  maxRadius: 18.0,
-                                ),
-                              ),
-                              //Comment data
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('January 25, 2024',
-                                        style: TextStyles.titleSmall()),
-                                    const Text(
-                                        maxLines: 5,
-                                        overflow: TextOverflow.ellipsis,
-                                        'There’s some bug before create apk'),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
 
-                      10.verticalSpace,
-
-                      //this is one comment
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 30),
-                          child: Row(
-                            children: [
-                              //Avatar
-                              const Padding(
-                                padding: EdgeInsets.only(right: 30.0),
-                                child: CircleAvatar(
-                                  backgroundImage: AssetImage(
-                                      'assets/icons/gitclic_icon.png'),
-                                  backgroundColor: Colors.white,
-                                  maxRadius: 18.0,
+                      //These are comments
+                      commitController.loadingCommitComment.value == true
+                          ? const Center(child: CircularProgressIndicator())
+                          : commitController.commitCommentsList.isEmpty
+                              ? Center(
+                                  child: Text('No comments..',
+                                      style: TextStyles.titleSmall()))
+                              : SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Column(
+                                    children: commitController
+                                        .commitCommentsList
+                                        .map((element) {
+                                      return SizedBox(
+                                        height: size.height * 0.1,
+                                        width: size.width,
+                                        child: CustomCommentWidget(
+                                            avatarUrl: element.user.avatarUrl,
+                                            date: element.createdAt,
+                                            description: element.body),
+                                      );
+                                    }).toList(),
+                                  ),
                                 ),
-                              ),
-                              //Comment data
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('January 25, 2024',
-                                        style: TextStyles.titleSmall()),
-                                    const Text(
-                                        maxLines: 5,
-                                        overflow: TextOverflow.ellipsis,
-                                        'There’s some bug before create apk'),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      )
                     ],
                   ),
                 ),
@@ -329,172 +233,5 @@ class CommitDetailPage extends StatelessWidget {
             ),
           );
         });
-  }
-}
-
-class CustomCommitCardDetail extends StatelessWidget {
-  const CustomCommitCardDetail({
-    super.key,
-    required this.size,
-  });
-
-  final Size size;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      child: Container(
-        height: size.height * 0.22,
-        width: size.width * 0.8,
-        decoration: BoxDecoration(
-          color: Get.theme.primaryColor.withOpacity(0.9),
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              //This is colum card for author data
-              //Author name
-              //Author email
-              //Author Date
-              Column(
-                children: [
-                  //This is text author commit card
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Get.theme.primaryColorLight.withOpacity(0.5),
-                      borderRadius: BorderRadius.circular(20.0),
-                      boxShadow: [
-                        //This is very important, that shadow has primary
-                        BoxShadow(
-                          color: Get.theme.primaryColor.withOpacity(0.01),
-                          spreadRadius: 1,
-                          blurRadius: 1,
-                          offset: const Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        textAlign: TextAlign.center,
-                        'Name:',
-                        style: TextStyles.titleSmall(color: Colors.white),
-                      ),
-                    ),
-                  ),
-
-                  10.verticalSpace,
-
-                  //This is text email commit card
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Get.theme.primaryColorLight.withOpacity(0.5),
-                      borderRadius: BorderRadius.circular(20.0),
-                      boxShadow: [
-                        //This is very important, that shadow has prima
-                        BoxShadow(
-                          color: Get.theme.primaryColor.withOpacity(0.01),
-                          spreadRadius: 1,
-                          blurRadius: 1,
-                          offset: const Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        textAlign: TextAlign.center,
-                        'Email:',
-                        style: TextStyles.titleSmall(color: Colors.white),
-                      ),
-                    ),
-                  ),
-
-                  10.verticalSpace,
-
-                  //This is text Date commit card
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Get.theme.primaryColorLight.withOpacity(0.5),
-                      borderRadius: BorderRadius.circular(20.0),
-                      boxShadow: [
-                        //This is very important, that shadow has prima
-                        BoxShadow(
-                          color: Get.theme.primaryColor.withOpacity(0.01),
-                          spreadRadius: 1,
-                          blurRadius: 1,
-                          offset: const Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        textAlign: TextAlign.center,
-                        'Date:',
-                        style: TextStyles.titleSmall(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-
-              50.horizontalSpace,
-
-              //this is column for author data
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            'Kevin',
-                            style: TextStyles.bodySmall(color: Colors.white),
-                          ),
-                          const Expanded(child: SizedBox()),
-                          Card(
-                            color: Colors.lightGreen,
-                            child: Padding(
-                              padding: const EdgeInsets.all(2.0),
-                              child: Text(
-                                'FEAT',
-                                style:
-                                    TextStyles.bodySmall(color: Colors.white),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      30.verticalSpace,
-                      //This is text for email data
-                      Text(
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        'kevinlopezs15@gmail.com',
-                        style: TextStyles.bodySmall(color: Colors.white),
-                      ),
-
-                      32.verticalSpace,
-                      //This is text for email data
-                      Text(
-                        'Kevin',
-                        style: TextStyles.bodySmall(color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
   }
 }

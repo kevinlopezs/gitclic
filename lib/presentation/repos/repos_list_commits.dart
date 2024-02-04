@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gitclic/presentation/commits/commits_controller.dart';
+import 'package:gitclic/presentation/repos/repos_controller.dart';
 import 'package:gitclic/presentation/themes/app_text_styles.dart';
 
-import '../global_widgets/custom_card_commit.dart';
-
-class CommitListPage extends StatelessWidget {
-  const CommitListPage({super.key});
+class RepoListPage extends StatelessWidget {
+  const RepoListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return GetBuilder<CommitController>(
-        id: 'commitListPage',
-        builder: (commitController) {
+    return GetBuilder<ReposController>(
+        id: 'repoListCommitsPage',
+        builder: (reposController) {
           return Scaffold(
             body: SafeArea(
               child: SingleChildScrollView(
@@ -42,7 +40,7 @@ class CommitListPage extends StatelessWidget {
                             padding: const EdgeInsets.all(15.0),
                             child: Text(
                               textAlign: TextAlign.start,
-                              'Commits list',
+                              'Repository commits list',
                               style: TextStyles.subtitleMedium(),
                             ),
                           ),
@@ -50,6 +48,7 @@ class CommitListPage extends StatelessWidget {
                       ),
 
                       //Title for weekly commits
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -68,14 +67,14 @@ class CommitListPage extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                'gitclic',
+                                reposController.currentRepo.value.name,
                                 style:
                                     TextStyles.titleSmall(color: Colors.white),
                               ),
                             ),
                           ),
                         ],
-                      ),
+                      )
 
                       //These are cards for commits search results
                       //CustomCardCommit(size: size),
