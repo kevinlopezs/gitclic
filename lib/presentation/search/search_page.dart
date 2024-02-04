@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:gitclic/helpers/commit_type_util.dart';
 import 'package:gitclic/presentation/search/search_controller.dart';
 import 'package:gitclic/presentation/themes/app_text_styles.dart';
 
@@ -100,9 +101,6 @@ class SearchPage extends StatelessWidget {
                       ),
 
                       //These are cards for commits search results
-                      // CustomCardCommit(size: size,authorName: ,commitDate: ,commitDescription: ,commitType: ,repoName: ),
-
-                      //
 
                       searchPageController.loadingSearch.value
                           ? const CircularProgressIndicator()
@@ -113,8 +111,9 @@ class SearchPage extends StatelessWidget {
                                       .searchCommitsList
                                       .map((element) {
                                     //Conditions for commit type
-                                    String commitType = determineCommitType(
-                                        element.commit.message);
+                                    String commitType =
+                                        CommitTypeUtil.determineCommitType(
+                                            element.commit.message);
 
                                     return InkWell(
                                       onTap: () {
@@ -140,29 +139,5 @@ class SearchPage extends StatelessWidget {
             ),
           );
         });
-  }
-}
-
-//Conditions for commit type
-//Add here what you want to use
-String determineCommitType(String commitMessage) {
-  if (commitMessage.toLowerCase().contains('feat')) {
-    return 'FEAT';
-  } else if (commitMessage.toLowerCase().contains('ui')) {
-    return 'UI';
-  } else if (commitMessage.toLowerCase().contains('tada')) {
-    return 'TADA';
-  } else if (commitMessage.toLowerCase().contains('fix')) {
-    return 'FIX';
-  } else if (commitMessage.toLowerCase().contains('add')) {
-    return 'ADD';
-  } else if (commitMessage.toLowerCase().contains('config')) {
-    return 'CONFIG';
-  } else if (commitMessage.toLowerCase().contains('auth')) {
-    return 'AUTH';
-  } else if (commitMessage.toLowerCase().contains('resources')) {
-    return 'RESOURCES';
-  } else {
-    return '';
   }
 }

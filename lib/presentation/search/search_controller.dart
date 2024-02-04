@@ -49,14 +49,14 @@ class SearchPageController extends GetxController {
       }
 
       //Get searchData and convert parse json data
-      final userModel = SearchModel.fromJson(searchResponse.data);
+      final searchModel = SearchModel.fromJson(searchResponse.data);
       //
       /*final List<SearchModel> searchTextList = searchResponse.data.map((item) {
         return SearchModel.fromJson(item);
       }).toList();*/
 
       //Add commits to list
-      searchCommitsList.assignAll(userModel.items);
+      searchCommitsList.assignAll(searchModel.items);
       loadingSearch.value = false;
       update(['searchPage']);
     } catch (e) {

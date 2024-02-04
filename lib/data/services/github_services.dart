@@ -31,4 +31,73 @@ class GitHubServices {
       throw Exception('Unexpected error ocurred. Error creating new user:$e');
     }
   }
+
+  //Service to get weekly commit counter
+  Future<Response> weeklyCommitCounter(
+      {required String userName, required String repoName}) async {
+    try {
+      Response response = await Dio().get(
+        "$apiGithub/repos/$userName/$repoName/stats/punch_card",
+        options: Options(headers: {
+          'Accept': 'application/vnd.github+json',
+          'Authorization': 'Bearer $tempToken',
+          'X-GitHub-Api-Version': '2022-11-28',
+        }),
+      );
+
+      return response;
+    } on DioException catch (e) {
+      final String dioError = e.response?.data['error_description'] ?? '';
+      throw Exception(dioError);
+    } catch (e) {
+      throw Exception('Unexpected error ocurred. Error creating new user:$e');
+    }
+  }
+
+  //Service to get repositories by user
+  Future<Response> reposByUser({
+    required String userName,
+  }) async {
+    try {
+      Response response = await Dio().get(
+        "$apiGithub/users/$userName/repos",
+        options: Options(headers: {
+          'Accept': 'application/vnd.github+json',
+          'Authorization': 'Bearer $tempToken',
+          'X-GitHub-Api-Version': '2022-11-28',
+        }),
+      );
+
+      return response;
+    } on DioException catch (e) {
+      final String dioError = e.response?.data['error_description'] ?? '';
+      throw Exception(dioError);
+    } catch (e) {
+      throw Exception('Unexpected error ocurred. Error creating new user:$e');
+    }
+  }
+
+  //Service to search a commit from GitHub API REST
+  Future<Response> commitsByUserAndRepo({
+    required String userName,
+    required String repoName,
+  }) async {
+    try {
+      Response response = await Dio().get(
+        "$apiGithub/repos/$userName/$repoName/commits",
+        options: Options(headers: {
+          'Accept': 'application/vnd.github+json',
+          'Authorization': 'Bearer $tempToken',
+          'X-GitHub-Api-Version': '2022-11-28',
+        }),
+      );
+
+      return response;
+    } on DioException catch (e) {
+      final String dioError = e.response?.data['error_description'] ?? '';
+      throw Exception(dioError);
+    } catch (e) {
+      throw Exception('Unexpected error ocurred. Error creating new user:$e');
+    }
+  }
 }
