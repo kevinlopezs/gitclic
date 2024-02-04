@@ -112,7 +112,7 @@ class SignInController extends GetxController {
           );
           //Save user session online with supabase
           //This is really necessary to save session in supabase
-          Get.snackbar('Success', 'Welcome to 3D Clic',
+          Get.snackbar('Success', 'Welcome to GitClic',
               duration: const Duration(seconds: 4),
               backgroundColor: Colors.green,
               colorText: Colors.white,

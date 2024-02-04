@@ -24,7 +24,11 @@ class SearchPageController extends GetxController {
     loadingSearch.value = true;
     try {
       //Condition to return if search is empty
-      if (searchText.isEmpty) return;
+      if (searchText.isEmpty) {
+        loadingSearch.value = false;
+        update(['searchPage']);
+        return;
+      }
 
       //Get http response
       final searchResponse = await searchService.searchCommit(
