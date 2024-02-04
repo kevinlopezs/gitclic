@@ -6,7 +6,8 @@ import 'package:gitclic/presentation/auth/sign_in/sign_in_recovery_page.dart';
 import 'package:gitclic/presentation/auth/sign_up/sign_up_controller.dart';
 import 'package:gitclic/presentation/auth/sign_up/sign_up_page.dart';
 import 'package:gitclic/presentation/commits/commits_controller.dart';
-import 'package:gitclic/presentation/commits/commits_page.dart';
+import 'package:gitclic/presentation/commits/commits_detail_page.dart';
+import 'package:gitclic/presentation/commits/commits_list_page.dart';
 import 'package:gitclic/presentation/home/home_controller.dart';
 import 'package:gitclic/presentation/home/home_page.dart';
 import 'package:gitclic/presentation/onboarding/onboarding_page.dart';
@@ -74,10 +75,18 @@ abstract class AppPages {
           Get.lazyPut(() => SearchPageController());
         })),
 
-    //CommitPage route
+    //CommitListPage route
     GetPage(
-        name: Approutes.commitPage,
-        page: () => const CommitPage(),
+        name: Approutes.commitListPage,
+        page: () => const CommitListPage(),
+        binding: BindingsBuilder(() {
+          Get.lazyPut(() => CommitController());
+        })),
+
+    //CommitDetailPage route
+    GetPage(
+        name: Approutes.commitDetailPage,
+        page: () => const CommitDetailPage(),
         binding: BindingsBuilder(() {
           Get.lazyPut(() => CommitController());
         })),
