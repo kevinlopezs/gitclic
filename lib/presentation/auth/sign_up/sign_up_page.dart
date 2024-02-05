@@ -60,9 +60,6 @@ class _SignUpBodyState extends State<_SignUpBody> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    //Instance for listen signUpController
-    final signUpController = Get.find<SignUpController>();
-
     //Scroll is used to auto scroll when user uses textformfield
     return GetBuilder<SignUpController>(
         id: 'signUpPage',

@@ -95,12 +95,6 @@ class RepoListPage extends StatelessWidget {
 
                                     return InkWell(
                                       onTap: () {
-                                        print('jejej');
-                                        //Save current repo name to commit controller
-                                        /* commitController
-                                                .currentRepoName?.value =
-                                            reposController
-                                                .currentRepo.value.name;*/
                                         Get.toNamed(Approutes.commitDetailPage,
                                             arguments: element,
                                             //Here we save the current repo selected

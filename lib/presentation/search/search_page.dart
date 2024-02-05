@@ -117,14 +117,15 @@ class SearchPage extends StatelessWidget {
 
                                     return InkWell(
                                       onTap: () {
-                                        print('jejej');
                                         Get.toNamed(Approutes.commitDetailPage,
-                                            arguments: element);
+                                            arguments: element,
+                                            parameters: {
+                                              'repo_name': 'gitclic'
+                                            });
                                       },
                                       child: CustomCardCommit(
                                         size: size,
-                                        repoName:
-                                            element.repository?[0].name ?? '',
+                                        repoName: 'gitclic',
                                         authorName: element.commit.author.name,
                                         commitDate:
                                             element.commit.committer.date,

@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:gitclic/presentation/auth/sign_in/sign_in_controller.dart';
 import 'package:gitclic/presentation/auth/sign_in/sign_in_widgets/sign_up_form_widget.dart';
-import 'package:gitclic/presentation/routes/app_pages.dart';
 import 'package:lottie/lottie.dart';
 import 'package:gitclic/presentation/themes/app_text_styles.dart';
 
@@ -60,9 +59,6 @@ class _SignUpBodyState extends State<_SignUpBody> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-
-    //Instance for listen signUpController
-    final signInController = Get.find<SignInController>();
 
     //Intance Modal TextEditing controller email
     final TextEditingController emailControllerPwdRecovery =

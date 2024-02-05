@@ -196,7 +196,10 @@ class HomePage extends StatelessWidget {
                                         onTap: () {
                                           Get.toNamed(
                                               Approutes.commitDetailPage,
-                                              arguments: element);
+                                              arguments: element,
+                                              parameters: {
+                                                'repo_name': 'gitclic'
+                                              });
                                         },
                                         child: CustomCardLastCommit(
                                             size: size,

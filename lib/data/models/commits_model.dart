@@ -62,6 +62,7 @@ class CommitsModel {
         "author": author.toJson(),
         "committer": committer.toJson(),
         "parents": List<dynamic>.from(parents.map((x) => x.toJson())),
+        // ignore: prefer_null_aware_operators
         "stats": stats != null ? stats!.toJson() : null,
         "files": files != null
             ? List<dynamic>.from(files!.map((x) => x.toJson()))
@@ -576,7 +577,7 @@ class Owner {
 class FileElement {
   String sha;
   String filename;
-  Status? status;
+  String? status;
   int? additions;
   int? deletions;
   int? changes;
@@ -601,8 +602,7 @@ class FileElement {
   factory FileElement.fromJson(Map<String, dynamic> json) => FileElement(
         sha: json["sha"],
         filename: json["filename"],
-        status:
-            json["status"] != null ? statusValues.map[json["status"]] : null,
+        status: json["status"],
         additions: json["additions"],
         deletions: json["deletions"],
         changes: json["changes"],
@@ -615,7 +615,7 @@ class FileElement {
   Map<String, dynamic> toJson() => {
         "sha": sha,
         "filename": filename,
-        "status": status != null ? statusValues.reverse[status] : null,
+        "status": status,
         "additions": additions,
         "deletions": deletions,
         "changes": changes,
@@ -625,10 +625,6 @@ class FileElement {
         "patch": patch,
       };
 }
-
-enum Status { ADDED }
-
-final statusValues = EnumValues({"added": Status.ADDED});
 
 class Stats {
   int total;
